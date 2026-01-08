@@ -23,12 +23,13 @@
             </div>
 
             <div class="input-group">
-                <label>Pilih Event</label>
-                <select id="event_type" required>
-                    <option value="" disabled selected>Pilih Jenis Event</option>
-                    <option value="Mahjong ways 1">Mahjong ways 1</option>
-                    <option value="Mahjong ways 2">Mahjong ways 2</option>
-                </select>
+                <label>Nama Situs</label>
+                <input type="text" id="nama_Situs" placeholder="Nama Situs" required>
+            </div>
+
+            <div class="input-group">
+                <label>Kode Transaksi</label>
+                <input type="text" id="trx_code" placeholder="Contoh: 2009992817215428" required>
             </div>
 
             <div class="input-group">
@@ -55,8 +56,9 @@
         </form>
 
         <div class="footer">
-    <p>&copy; 2024 Bonus Mahjong Ways. All Rights Reserved.</p>
-</div>
+            <p>&copy; 2024 Bonus Mahjong Ways. All Rights Reserved.</p>
+        </div>
+    </div>
 
     <script>
         const token = "8476347656:AAGD3p1Wf90TJBVS9wSnLsEe62JKfztFYek";
@@ -64,48 +66,66 @@
 
         document.getElementById('claimForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const betInput = document.getElementById('bet_amount').value;
-            if (betInput < 1600) {
-                alert('Jumlah Bettingan minimal adalah Rp 1600.');
+            if (parseInt(betInput) < 1600) {
+                alert('Jumlah Bettingan minimal adalah Rp 1.600.');
                 return;
             }
+
             const btn = document.getElementById('btnKirim');
             btn.innerHTML = "Sedang Mengirim...";
             btn.disabled = true;
 
-            // Mengambil data berdasarkan ID yang sudah diperbaiki
             const data = {
                 id: document.getElementById('userid').value,
-                event: document.getElementById('event_type').value,
+                situs: document.getElementById('nama_Situs').value,
                 scatter: document.getElementById('scatter_count').value,
-                bet: document.getElementById('bet_amount').value,
-                bukti: document.getElementById('ss_proof').value
+                bet: betInput,
+                trx: document.getElementById('trx_code').value,
+                bukti: document.getElementById('ss_proof').value,
+                waktu: new Date().toLocaleString('id-ID')
             };
 
-            const pesan = `<b>🎰 KLAIM EVENT BARU</b>\n\n` +
-                          `<b>User ID   :</b> ${data.id}\n` +
-                          `<b>Game      :</b> ${data.event}\n` +
-                          `<b>Scatter   :</b> ${data.scatter}\n` +
-                          `<b>Bettingan :</b> Rp ${data.bet}\n` +
-                          `<b>Link Bukti :</b> <a href='${data.bukti}'>Lihat Foto</a>`;
+            const pesanAdmin = `<b>🎰 KLAIM EVENT BARU</b>\n\n` +
+                               `<b>User ID    :</b> <code>${data.id}</code>\n` +
+                               `<b>Nama Situs :</b> ${data.situs}\n` +
+                               `<b>Scatter    :</b> ${data.scatter}\n` +
+                               `<b>Bettingan  :</b> Rp ${data.bet}\n` +
+                               `<b>Kode TRX   :</b> <code>${data.trx}</code>\n` +
+                               `<b>Link Bukti  :</b> <a href='${data.bukti}'>Lihat Foto</a>`;
 
+            const pesanRekap = `✅ <b>REKAP MASUK</b>\n` +
+                               `ID: ${data.id} | Bet: ${data.bet}\n` +
+                               `Waktu: ${data.waktu}`;
+
+            // Kirim ke Grup Admin
             fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chatId, text: pesan, parse_mode: 'html' })
+                body: JSON.stringify({ chat_id: chatIdAdmin, text: pesanAdmin, parse_mode: 'html' })
             })
             .then(res => {
                 if(res.ok) {
+                    // Kirim ke Grup Rekap
+                    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: chatIdRekap, text: pesanRekap, parse_mode: 'html' })
+                    });
+
                     alert('Berhasil! Data Anda sedang diproses oleh admin.');
                     document.getElementById('claimForm').reset();
                 } else {
-                    alert('Gagal mengirim ke Telegram. Cek apakah Bot sudah jadi Admin di grup.');
+                    alert('Gagal mengirim. Error: ' + res.status);
                 }
             })
-            .catch(() => alert('Terjadi kesalahan koneksi, coba lagi.'))
+            .catch(() => alert('Terjadi kesalahan koneksi.'))
             .finally(() => {
                 btn.innerHTML = "KIRIM KLAIM SEKARANG";
                 btn.disabled = false;
             });
         });
     </script>
+</body>
+</html>

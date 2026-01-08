@@ -1,3 +1,4 @@
+/* RESET DEFAULT */
 * {
     margin: 0;
     padding: 0;
@@ -6,45 +7,55 @@
 }
 
 body {
-    /* Menggunakan gambar lokal yang Anda simpan */
+    /* Background Mahjong */
     background: 
-        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), /* Overlay gelap */
-        url('mahjong-bg.jpg') no-repeat center center fixed; /* Nama file gambar Anda */
-
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)), 
+        url('mahjong-bg.jpg') no-repeat center center fixed;
     background-size: cover;
-    height: 100vh;
+    
+    /* PERBAIKAN SCROLL: Menggunakan min-height dan auto overflow */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    margin: 0;
+    justify-content: flex-start; /* Konten dimulai dari atas agar bisa di-scroll */
     padding: 20px;
-    overflow: hidden;
+    overflow-y: auto; 
+    overflow-x: hidden;
 }
 
+/* CONTAINER UTAMA */
 .glass-container {
-    background: rgba(255, 255, 255, 0.03); /* Transparansi sangat tipis */
-    backdrop-filter: blur(15px); /* Efek blur kaca */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(212, 175, 55, 0.4); /* Border warna emas */
-    padding: 40px;
-    border-radius: 30px;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    padding: 35px 25px;
+    border-radius: 25px;
     width: 100%;
     max-width: 450px;
-    box-shadow: 0 0 30px rgba(212, 175, 55, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.05);
     text-align: center;
+    margin: 20px auto; /* Memberi jarak atas bawah agar tidak mepet layar */
+}
+
+/* HEADER & LOGO */
+.form-header {
+    margin-bottom: 25px;
 }
 
 .form-header img {
-    width: 60px;
+    width: 80px; /* Ukuran logo yang pas */
+    height: auto;
+    display: block;
+    margin: 0 auto 15px;
     filter: drop-shadow(0 0 10px #d4af37);
-    margin-bottom: 10px;
 }
 
 .form-header h1 {
-    font-size: 28px;
+    font-size: 24px;
     color: #fff;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     font-weight: 800;
     margin-bottom: 5px;
 }
@@ -52,14 +63,15 @@ body {
 .gold-text {
     color: #d4af37;
     text-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+    animation: pulse 2s infinite ease-in-out;
 }
 
 .form-header p {
     color: #ccc;
-    font-size: 14px;
-    margin-bottom: 30px;
+    font-size: 13px;
 }
 
+/* INPUT GROUP */
 .input-group {
     text-align: left;
     margin-bottom: 15px;
@@ -67,20 +79,21 @@ body {
 
 .input-group label {
     display: block;
-    color: #fff;
-    font-size: 12px;
-    margin-bottom: 5px;
+    color: #d4af37;
+    font-size: 11px;
+    margin-bottom: 8px;
     margin-left: 5px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    font-weight: 600;
 }
 
 input, select {
     width: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(212, 175, 55, 0.5);
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     padding: 12px 15px;
-    border-radius: 12px;
+    border-radius: 10px;
     color: #fff;
     font-size: 14px;
     outline: none;
@@ -89,47 +102,68 @@ input, select {
 
 input:focus, select:focus {
     border-color: #f1c40f;
-    box-shadow: 0 0 10px rgba(241, 196, 15, 0.3);
-    background: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.2);
+    background: rgba(0, 0, 0, 0.8);
 }
 
-/* Tombol Kirim yang mewah */
+/* TOMBOL KIRIM */
 button {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 15px;
     padding: 15px;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     background: linear-gradient(45deg, #b8860b, #f1c40f, #d4af37);
     color: #000;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 15px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: 0.4s;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
 button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+    transform: translateY(-2px);
     filter: brightness(1.1);
 }
 
+button:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+/* FOOTER */
 .footer {
-    margin-top: 20px;
-    font-size: 11px;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    font-size: 10px;
     color: rgba(255, 255, 255, 0.4);
     letter-spacing: 1px;
+    text-align: center;
 }
 
-/* Animasi sederhana agar terlihat hidup */
+/* RESPONSIVE UNTUK HP */
+@media screen and (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    .glass-container {
+        padding: 25px 15px;
+        margin: 10px auto;
+    }
+    .form-header img {
+        width: 70px;
+    }
+    .form-header h1 {
+        font-size: 20px;
+    }
+}
+
+/* ANIMASI */
 @keyframes pulse {
-    0% { opacity: 0.8; }
+    0% { opacity: 0.7; }
     50% { opacity: 1; }
-    100% { opacity: 0.8; }
-}
-
-.gold-text {
-    animation: pulse 2s infinite ease-in-out;
+    100% { opacity: 0.7; }
 }
