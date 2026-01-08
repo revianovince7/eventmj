@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Reward Mahjong Ways</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="glass-container">
+        <div class="form-header">
+            <img src="https://img.icons8.com/color/96/mahjong.png" alt="Logo">
+            <h1>MAHJONG <span class="gold-text">WAYS</span></h1>
+            <p>Claim Hadiah Scatter & Event Menarik</p>
+        </div>
+
+        <form id="claimForm">
+            <div class="input-group">
+                <label>User ID</label>
+                <input type="text" id="userid" placeholder="Contoh: AdminGacor88" required>
+            </div>
+
+            <div class="input-group">
+                <label>Pilih Event</label>
+                <select id="event" required>
+                    <option value="" disabled selected>Pilih Jenis Event</option>
+                    <option value="Mahjong ways1">Mahjong ways 1</option>
+                    <option value="Mahjong ways2">Mahjong ways 2</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Jumlah Scatter</label>
+                <select id="event" required>
+                    <option value="" disabled selected>Pilih Jumlah Scatter</option>
+                    <option value="Scatter 3">Scatter 3</option>
+                    <option value="Scatter 4">Scatter 4</option>
+                    <option value="Scatter 5">Scatter 5</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Jumlah Bettingan</label>
+                <input type="number" id="bukti" placeholder="Masukan Jumlah Bet" required>
+            </div>
+
+            <div class="input-group">
+                <label>Link Screenshot Bukti</label>
+                <input type="url" id="bukti" placeholder="https://imgbb.com/..." required>
+            </div>
+
+            <button type="submit" id="btnKirim">KIRIM KLAIM SEKARANG</button>
+        </form>
+        
+        <div class="footer">
+            <p>&copy; 2024 Mahjong Ways Event. All Rights Reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        const token = "8495148287:AAEMNk0PKJsXkoiPp-wuSK3A4kIP4HJbVbM";
+        const chatId = "-4959751612";
+
+        document.getElementById('claimForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnKirim');
+            btn.innerHTML = "Sedang Mengirim...";
+            btn.disabled = true;
+
+            const data = {
+                id: document.getElementById('userid').value,
+                event: document.getElementById('event').value,
+                scatter: document.getElementById('scatter').value,
+                bukti: document.getElementById('bukti').value
+            };
+
+            const pesan = `<b>🎰 KLAIM EVENT BARU</b>\n\n` +
+                          `<b>User ID :</b> ${data.id}\n` +
+                          `<b>Event   :</b> ${data.event}\n` +
+                          `<b>Scatter :</b> ${data.scatter}\n` +
+                          `<b>Link    :</b> <a href='${data.bukti}'>Lihat Bukti</a>`;
+
+            fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: pesan, parse_mode: 'html' })
+            })
+            .then(() => {
+                alert('Berhasil! Data Anda sedang diproses oleh admin.');
+                document.getElementById('claimForm').reset();
+            })
+            .catch(() => alert('Terjadi kesalahan, coba lagi.'))
+            .finally(() => {
+                btn.innerHTML = "KIRIM KLAIM SEKARANG";
+                btn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
