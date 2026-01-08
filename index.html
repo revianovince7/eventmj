@@ -24,16 +24,16 @@
 
             <div class="input-group">
                 <label>Pilih Event</label>
-                <select id="event" required>
+                <select id="event_type" required>
                     <option value="" disabled selected>Pilih Jenis Event</option>
-                    <option value="Mahjong ways1">Mahjong ways 1</option>
-                    <option value="Mahjong ways2">Mahjong ways 2</option>
+                    <option value="Mahjong ways 1">Mahjong ways 1</option>
+                    <option value="Mahjong ways 2">Mahjong ways 2</option>
                 </select>
             </div>
 
             <div class="input-group">
                 <label>Jumlah Scatter</label>
-                <select id="event" required>
+                <select id="scatter_count" required>
                     <option value="" disabled selected>Pilih Jumlah Scatter</option>
                     <option value="Scatter 3">Scatter 3</option>
                     <option value="Scatter 4">Scatter 4</option>
@@ -43,24 +43,19 @@
 
             <div class="input-group">
                 <label>Jumlah Bettingan</label>
-                <input type="number" id="bukti" placeholder="Masukan Jumlah Bet" required>
+                <input type="number" id="bet_amount" placeholder="Masukan Jumlah Bet" required>
             </div>
 
             <div class="input-group">
                 <label>Link Screenshot Bukti</label>
-                <input type="url" id="bukti" placeholder="https://imgbb.com/..." required>
+                <input type="url" id="ss_proof" placeholder="https://imgbb.com/..." required>
             </div>
 
             <button type="submit" id="btnKirim">KIRIM KLAIM SEKARANG</button>
         </form>
-        
-        <div class="footer">
-            <p>&copy; 2024 Mahjong Ways Event. All Rights Reserved.</p>
-        </div>
-    </div>
 
     <script>
-        const token = "8495148287:AAEMNk0PKJsXkoiPp-wuSK3A4kIP4HJbVbM";
+        const token = "8476347656:AAGD3p1Wf90TJBVS9wSnLsEe62JKfztFYek";
         const chatId = "-4959751612";
 
         document.getElementById('claimForm').addEventListener('submit', function(e) {
@@ -69,34 +64,39 @@
             btn.innerHTML = "Sedang Mengirim...";
             btn.disabled = true;
 
+            // Mengambil data berdasarkan ID yang sudah diperbaiki
             const data = {
                 id: document.getElementById('userid').value,
-                event: document.getElementById('event').value,
-                scatter: document.getElementById('scatter').value,
-                bukti: document.getElementById('bukti').value
+                event: document.getElementById('event_type').value,
+                scatter: document.getElementById('scatter_count').value,
+                bet: document.getElementById('bet_amount').value,
+                bukti: document.getElementById('ss_proof').value
             };
 
             const pesan = `<b>🎰 KLAIM EVENT BARU</b>\n\n` +
-                          `<b>User ID :</b> ${data.id}\n` +
-                          `<b>Event   :</b> ${data.event}\n` +
-                          `<b>Scatter :</b> ${data.scatter}\n` +
-                          `<b>Link    :</b> <a href='${data.bukti}'>Lihat Bukti</a>`;
+                          `<b>User ID   :</b> ${data.id}\n` +
+                          `<b>Game      :</b> ${data.event}\n` +
+                          `<b>Scatter   :</b> ${data.scatter}\n` +
+                          `<b>Bettingan :</b> Rp ${data.bet}\n` +
+                          `<b>Link Bukti :</b> <a href='${data.bukti}'>Lihat Foto</a>`;
 
             fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: chatId, text: pesan, parse_mode: 'html' })
             })
-            .then(() => {
-                alert('Berhasil! Data Anda sedang diproses oleh admin.');
-                document.getElementById('claimForm').reset();
+            .then(res => {
+                if(res.ok) {
+                    alert('Berhasil! Data Anda sedang diproses oleh admin.');
+                    document.getElementById('claimForm').reset();
+                } else {
+                    alert('Gagal mengirim ke Telegram. Cek apakah Bot sudah jadi Admin di grup.');
+                }
             })
-            .catch(() => alert('Terjadi kesalahan, coba lagi.'))
+            .catch(() => alert('Terjadi kesalahan koneksi, coba lagi.'))
             .finally(() => {
                 btn.innerHTML = "KIRIM KLAIM SEKARANG";
                 btn.disabled = false;
             });
         });
     </script>
-</body>
-</html>
