@@ -43,7 +43,7 @@
 
             <div class="input-group">
                 <label>Jumlah Bettingan</label>
-                <input type="number" id="bet_amount" placeholder="Masukan Jumlah Bet" required>
+                <input type="number" id="bet_amount" min="1600" placeholder="Masukan Jumlah Bet" required>
             </div>
 
             <div class="input-group">
@@ -64,6 +64,11 @@
 
         document.getElementById('claimForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            const betInput = document.getElementById('bet_amount').value;
+            if (betInput < 1600) {
+                alert('Jumlah Bettingan minimal adalah Rp 1600.');
+                return;
+            }
             const btn = document.getElementById('btnKirim');
             btn.innerHTML = "Sedang Mengirim...";
             btn.disabled = true;
