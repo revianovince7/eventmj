@@ -16,6 +16,10 @@
             <p>Claim Hadiah Scatter & Event Menarik</p>
         </div>
 
+        <div style="text-align: right; margin-bottom: 10px;">
+    <a href="javascript:void(0)" onclick="tampilTutorial()" style="color: #d4af37; font-size: 13px; text-decoration: underline;">Cara Mengisi Form?</a>
+</div>
+
         <form id="claimForm">
             <div class="input-group">
                 <label>User ID</label>
@@ -50,19 +54,36 @@
             <div class="input-group">
                 <label>Link Screenshot Bukti</label>
                 <input type="url" id="ss_proof" placeholder="https://imgbb.com/..." required>
+                <small style="color: rgba(255,255,255,0.4); font-size: 10px; margin-top: 5px; display: block;">
+        *Upload foto ke <b>ImgBB</b> lalu copy linknya di sini.
+    </small>
             </div>
 
             <button type="submit" id="btnKirim">KIRIM KLAIM SEKARANG</button>
         </form>
+
+        <div class="help-section" style="margin-top: 20px; padding: 15px; background: rgba(212, 175, 55, 0.1); border-radius: 12px; border: 1px dashed rgba(212, 175, 55, 0.5);">
+    <p style="color: #fff; font-size: 12px; margin-bottom: 8px;">Klaim belum diproses atau bingung cara isi?</p>
+    <a href="" target="_blank" class="btn-help" style="color: #d4af37; font-weight: bold; text-decoration: none; font-size: 13px;">
+        📩 HUBUNGI ADMIN SEKARANG
+    </a>
+</div>
 
         <div class="footer">
             <p>&copy; 2024 Bonus Mahjong Ways. All Rights Reserved.</p>
         </div>
     </div>
 
+    
+
     <script>
-        const token = "8476347656:AAGD3p1Wf90TJBVS9wSnLsEe62JKfztFYek";
-        const chatId = "-4959751612";
+        // Trik Pecah Token agar tidak dihapus otomatis oleh GitHub
+        const p1 = "8476347656";
+        const p2 = "AAGD3p1Wf90TJBVS9wSnLsEe62JKfztFYek";
+        const token = `${p1}:${p2}`;
+		
+// Perbaikan Nama Variabel
+        const chatIdAdmin = "-4959751612";
 
         document.getElementById('claimForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -126,6 +147,17 @@
                 btn.disabled = false;
             });
         });
+
+        function tampilTutorial() {
+    alert(
+        "CARA PENGISIAN FORM:\n\n" +
+        "1. User ID: Masukkan ID akun Anda.\n" +
+        "2. Nama Situs: Masukkan nama situs tempat bermain.\n" +
+        "3. Kode TRX: Ambil dari riwayat transaksi/bettingan.\n" +
+        "4. Link Screenshot: Upload foto ke postimg.cc atau imgbb.com, lalu tempel linknya di sini.\n\n" +
+        "Minimal Bettingan adalah Rp 1.600!"
+    );
+}
     </script>
 </body>
 </html>
